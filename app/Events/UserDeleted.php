@@ -6,8 +6,8 @@ namespace App\Events;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Broadcasting\{Channel, InteractsWithSockets};
 
 class UserDeleted implements ShouldBroadcast
 {
@@ -16,7 +16,7 @@ class UserDeleted implements ShouldBroadcast
 	/**
 	 * Information about the user deleted.
 	 *
-	 * @var $phone
+	 * @var string $phone
 	 */
 	public string $phone;
 
@@ -37,7 +37,7 @@ class UserDeleted implements ShouldBroadcast
 	 *
 	 * @return \Illuminate\Broadcasting\Channel|array
 	 */
-	public function broadcastOn(): array
+	public function broadcastOn(): Channel|array
 	{
 		return [
 			'user-deleted',
