@@ -15,9 +15,11 @@ class ApiController extends Controller
 	/**
 	 * details api
 	 *
+	 * @param \Illuminate\Http\Request $request
+	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function user(Request $request)
+	public function user(Request $request): Response
 	{
 		$user = $request->user();
 		return response([
@@ -29,6 +31,8 @@ class ApiController extends Controller
 
 	/**
 	 * login api
+	 *
+	 * @param \App\Http\Requests\TokenRequest $request
 	 *
 	 * @return \Illuminate\Http\Response|string usable Bearer token
 	 * @throws \Illuminate\Validation\ValidationException
