@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
-use App\Rules\Phone;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TokenRequest extends FormRequest
@@ -27,10 +26,8 @@ class TokenRequest extends FormRequest
 	public function rules(): array
 	{
 		return [
-			'phone' => ['required', 'string', new Phone],
-			'password' => 'required',
-			'device_name' => 'required',
-			'number' => 'required|integer|in:1,2',
+			'email' => 'required|email|min:6|max:100',
+			'password' => 'required|string|min:8|max:100',
 		];
 	}
 }
