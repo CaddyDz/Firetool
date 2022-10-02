@@ -17,6 +17,13 @@ class User extends Resource
 	public static $model = \App\Models\User::class;
 
 	/**
+	 * The order in which to show the resource on the sidebar.
+	 *
+	 * @var int $priority
+	 */
+	public static $priority = 1;
+
+	/**
 	 * The single value that should be used to represent the resource when being displayed.
 	 *
 	 * @var string
@@ -35,10 +42,10 @@ class User extends Resource
 	/**
 	 * Get the fields displayed by the resource.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param \Illuminate\Http\Request $request
 	 * @return array
 	 */
-	public function fields(Request $request)
+	public function fields(Request $request): array
 	{
 		return [
 			ID::make()->sortable(),
@@ -60,49 +67,5 @@ class User extends Resource
 
 			Number::make('Mode')->min(1)->max(2)->step(1)->required(),
 		];
-	}
-
-	/**
-	 * Get the cards available for the request.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return array
-	 */
-	public function cards(Request $request)
-	{
-		return [];
-	}
-
-	/**
-	 * Get the filters available for the resource.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return array
-	 */
-	public function filters(Request $request)
-	{
-		return [];
-	}
-
-	/**
-	 * Get the lenses available for the resource.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return array
-	 */
-	public function lenses(Request $request)
-	{
-		return [];
-	}
-
-	/**
-	 * Get the actions available for the resource.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @return array
-	 */
-	public function actions(Request $request)
-	{
-		return [];
 	}
 }

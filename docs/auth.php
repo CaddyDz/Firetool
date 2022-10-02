@@ -10,7 +10,7 @@ declare(strict_types=1);
  *   operationId="login",
  *
  *   @OA\Parameter(
- *      name="phone",
+ *      name="name",
  *      in="query",
  *      required=true,
  *      @OA\Schema(
@@ -67,6 +67,3 @@ declare(strict_types=1);
  *   )
  *)
  **/
-class auth_docs
-{
-}

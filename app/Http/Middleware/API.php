@@ -7,7 +7,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class SetJsonHeader
+class API
 {
 	/**
 	 * Handle an incoming request.
@@ -18,7 +18,7 @@ class SetJsonHeader
 	 */
 	public function handle(Request $request, Closure $next)
 	{
-		$request->headers->set('Accept', 'application/json');
+		$request->headers->add(['Accept' => 'application/json']);
 		return $next($request);
 	}
 }

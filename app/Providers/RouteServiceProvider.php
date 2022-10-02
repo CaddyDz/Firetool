@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\{RateLimiter, Route};
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -32,25 +33,15 @@ class RouteServiceProvider extends ServiceProvider
 			Route::prefix('api')
 				->middleware('api')
 				->group(base_path('routes/api.php'));
+
+			Route::middleware('web')
+				->group(base_path('routes/web.php'));
+
+			if (!app()->isProduction()) {
+				Route::middleware('web')
+					->group(base_path('routes/dev.php'));
+			}
 		});
-
-		if (config('app.debug')) {
-			$this->mapDevRoutes();
-		}
-	}
-
-	/**
-	 * Define the "dev" routes for the application.
-	 *
-	 * These routes are meant for testing and are inaccessible in production.
-	 *
-	 * @return void
-	 */
-	protected function mapDevRoutes(): void
-	{
-		Route::middleware('web')
-			->namespace($this->namespace)
-			->group(base_path('routes/dev.php'));
 	}
 
 	/**
@@ -60,6 +51,11 @@ class RouteServiceProvider extends ServiceProvider
 	 */
 	protected function configureRateLimiting(): void
 	{
-		RateLimiter::for('api', fn () => Limit::perMinute(60));
+		RateLimiter::for('api', function (Request $request) {
+			/** @var \App\Models\User|null $user The user from the request */
+			$user = $request->user();
+			$id = is_null($user) ? $request->ip() : $user->id;
+			Limit::perMinute(60)->by((string) $id);
+		});
 	}
 }

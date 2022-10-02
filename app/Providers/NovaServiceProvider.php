@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Illuminate\Support\Facades\{Gate, Route};
+use App\Http\Controllers\Nova\LoginController;
 use Laravel\Nova\{Nova, NovaApplicationServiceProvider};
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -14,9 +15,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 	 *
 	 * @return void
 	 */
-	public function boot()
+	public function boot(): void
 	{
 		parent::boot();
+		Nova::sortResourcesBy(fn ($resource) => $resource::$priority ?? 9999);
 	}
 
 	/**
@@ -24,10 +26,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 	 *
 	 * @return void
 	 */
-	protected function routes()
+	protected function routes(): void
 	{
 		$this->withAuthenticationRoutes();
 		Nova::routes()
+			->withPasswordResetRoutes()
 			->register();
 	}
 
@@ -40,20 +43,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 	public function withAuthenticationRoutes($middleware = ['web'])
 	{
 		Route::namespace('App\Http\Controllers')
-			->domain(config('nova.domain', null))
 			->middleware($middleware)
 			->prefix(Nova::path())
 			->group(function () {
-				Route::get('/login', 'LoginController@showLoginForm');
-				Route::post('/login', 'LoginController@login')->name('nova.login');
+				Route::get('/login', [LoginController::class, 'showLoginForm']);
+				Route::post('/login', [LoginController::class, 'login'])->name('nova.login');
 			});
 
 		Route::namespace('Laravel\Nova\Http\Controllers')
-			->domain(config('nova.domain', null))
-			->middleware(config('nova.middleware', []))
+			->middleware((array) config('nova.middleware'))
 			->prefix(Nova::path())
 			->group(function () {
-				Route::get('/logout', 'LoginController@logout')->name('nova.logout');
+				Route::get('/logout', [LoginController::class, 'logout'])->name('nova.logout');
 			});
 
 		return $this;
@@ -66,52 +67,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 	 *
 	 * @return void
 	 */
-	protected function gate()
+	protected function gate(): void
 	{
-		Gate::define('viewNova', function ($user) {
-			return in_array($user->phone, [
-				'+213550647548'
-			]);
-		});
-	}
-
-	/**
-	 * Get the cards that should be displayed on the default Nova dashboard.
-	 *
-	 * @return array
-	 */
-	protected function cards()
-	{
-		return [];
-	}
-
-	/**
-	 * Get the extra dashboards that should be displayed on the Nova dashboard.
-	 *
-	 * @return array
-	 */
-	protected function dashboards()
-	{
-		return [];
-	}
-
-	/**
-	 * Get the tools that should be listed in the Nova sidebar.
-	 *
-	 * @return array
-	 */
-	public function tools()
-	{
-		return [];
-	}
-
-	/**
-	 * Register any application services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		//
+		Gate::define('viewNova', fn (): bool => true);
 	}
 }

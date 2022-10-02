@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Laravel\Nova\Nova;
-use Illuminate\Http\Request;
+use Illuminate\Http\{RedirectResponse, Request};
 use Laravel\Nova\Http\Controllers\LoginController as NovaLoginController;
 
 class LoginController extends NovaLoginController
@@ -30,7 +30,14 @@ class LoginController extends NovaLoginController
 		return Nova::path() . '/resources/users';
 	}
 
-	protected function sendLoginResponse(Request $request)
+	/**
+	 * Send login response
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	protected function sendLoginResponse(Request $request): RedirectResponse
 	{
 		$request->session()->regenerate();
 

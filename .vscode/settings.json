@@ -9,5 +9,7 @@
 	// The number of spaces a tab is equal to. This setting is overridden based on the file contents when `editor.detectIndentation` is on.
 	"editor.tabSize": 4,
 	// Format a file on save. A formatter must be available, the file must not be saved after delay, and the editor must not be shutting down.
-	"editor.formatOnSave": true
+	"editor.formatOnSave": true,
+	// PhpStan rule levels 0-7, "config" indicates that it's set in config file
+  	"phpstan.level": "5"
 }

@@ -41,11 +41,9 @@ return [
 				'cluster' => env('PUSHER_APP_CLUSTER'),
 				'useTLS' => true,
 			],
-		],
-
-		'redis' => [
-			'driver' => 'redis',
-			'connection' => 'default',
+			'client_options' => [
+				// Guzzle client options: https://docs.guzzlephp.org/en/stable/request-options.html
+			],
 		],
 
 		'log' => [

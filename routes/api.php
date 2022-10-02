@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Api\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,12 +17,5 @@ use App\Http\Controllers\ApiController;
 |
 */
 
-Route::controller(ApiController::class)->group(function () {
-	Route::post('login', 'login');
-	Route::middleware(['auth:sanctum'])->group(function () {
-		// lists all users
-		Route::get('/user', 'user');
-		Route::post('logout', 'logout');
-	});
-	// auth routes
-});
+Route::middleware('auth:sanctum')->get('/user', fn (Request $request) => $request->user());
+Route::post('contact', [ContactController::class, 'send']);

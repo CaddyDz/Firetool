@@ -1,17 +1,31 @@
+/node_modules
+/public/hot
 /public/storage
-/storage/*.key
-.env
-.phpunit.result.cache
+# Compiled frontend bundles
+/public/css
+/public/js
 # Package static assets
-public/vendor
-# Third party packages
+/public/vendor
+/storage/*.key
 /vendor
-# Package language assets
-resources/lang/vendor
-# CS fixer cache
-.php-cs-fixer.cache
-# macOS finder
-.DS_Store
-# IDE Helper generated files
+.env
+.env.backup
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
 _ide_helper.php
 .phpstorm.meta.php
+.php-cs-fixer.cache
+# Laravel Nova
+/nova
+nova.zip
+resources/views/vendor/nova
+# Package language files
+resources/lang/vendor
+# Generated Swagger API docs
+storage/api-docs
+# Vagrant generated files
+.vagrant
+# Laravel debug bar
+storage/debugbar/
+.DS_Store
