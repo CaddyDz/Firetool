@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# A hook script to auto fix all PHP files to follow standards desribed in .php_cs file.
+# A hook script to auto fix all PHP files to follow standards desribed in .php-cs-fixer.php file.
 # Called by "git commit" with no arguments.
 # The hook should exit with non-zero status after issuing an appropriate message if
 # it wants to stop the commit.
